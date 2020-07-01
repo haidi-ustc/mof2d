@@ -107,7 +107,7 @@ def run_template(template):
                 print('type : ', node_dict['type'])
                 print('cartesian coords : ', node_dict['ccoords'])
                 print('fractional coords : ', node_dict['fcoords'])
-                print('degree : ', node_dict['cn'][0])
+                print('degree : ', node_dict['cn'])
                 print()
     
             print('There are', len(TG.edges()), 'edges in the voltage graph:')
