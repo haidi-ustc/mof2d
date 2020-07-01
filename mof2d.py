@@ -401,7 +401,12 @@ for d in ['templates', 'nodes', 'edges']:
     except:
         pass
 
-templates = sorted(os.listdir('templates'))
+#templates = sorted(os.listdir('templates'))
+cwd=os.getcwd()
+os.chdir(os.path.join(cwd,'templates'))
+templates = glob.glob('*.cif')
+templates.sort()
+os.chdir(cwd)
 
 if RUN_PARALLEL:
     run_tobacco_parallel(templates, CHARGES)
