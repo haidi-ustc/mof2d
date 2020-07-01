@@ -14,6 +14,7 @@ from adjust_edges import adjust_edges
 from write_cifs import write_check_cif, write_cif, bond_connected_components, distance_search_bond, fix_bond_sym, merge_catenated_cifs
 from scale_animation import scaling_callback_animation, write_scaling_callback_animation, animate_objective_minimization
 
+import sys
 import configuration
 import os
 import re
@@ -25,6 +26,7 @@ import multiprocessing
 from random import choice
 
 ####### Global options #######
+DEBUG=False
 PRINT = configuration.PRINT
 ONE_ATOM_NODE_CN = configuration.ONE_ATOM_NODE_CN
 CONNECTION_SITE_BOND_LENGTH = configuration.CONNECTION_SITE_BOND_LENGTH
@@ -83,7 +85,8 @@ def run_template(template):
     print()
     
     cat_count = 0
-    for net in ct2g(template):
+    print(DEBUG)
+    for net in ct2g(template,debug=DEBUG):
 
         cat_count += 1
         TG, start, unit_cell, TVT, TET, TNAME, a, b, c, ang_alpha, ang_beta, ang_gamma, max_le, catenation = net
@@ -402,6 +405,10 @@ for d in ['templates', 'nodes', 'edges']:
         pass
 
 #templates = sorted(os.listdir('templates'))
+if len(sys.argv)==2 and sys.argv[1]=='-d':
+   PRINT=True
+   DEBUG=True
+
 cwd=os.getcwd()
 os.chdir(os.path.join(cwd,'templates'))
 templates = glob.glob('*.cif')

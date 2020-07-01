@@ -7,7 +7,6 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import networkx as nx
 
-debug=False
 vertices = ('V' , 'Er', 'Ti', 'Ce', 'S',
             'H' , 'He', 'Li', 'Be', 'B',
             'C' , 'N' , 'O' , 'F' , 'Ne',
@@ -75,7 +74,7 @@ def PBC3DF(c1, c2):
     
     return c2
 
-def ct2g(cifname,path='templates',plot=False):
+def ct2g(cifname,path='templates',plot=False,debug=False):
 
     path = os.path.join(path, cifname)
 

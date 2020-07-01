@@ -4,3 +4,4 @@ template_errors
 cifs
 mytests
 *.png
+*log
