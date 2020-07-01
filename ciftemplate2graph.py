@@ -2,8 +2,12 @@ from __future__ import print_function
 import re
 import os
 import numpy as np
+import matplotlib 
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import networkx as nx
 
+debug=False
 vertices = ('V' , 'Er', 'Ti', 'Ce', 'S',
             'H' , 'He', 'Li', 'Be', 'B',
             'C' , 'N' , 'O' , 'F' , 'Ne',
@@ -71,9 +75,9 @@ def PBC3DF(c1, c2):
     
     return c2
 
-def ct2g(cifname):
+def ct2g(cifname,path='templates',plot=False):
 
-    path = os.path.join('templates', cifname)
+    path = os.path.join(path, cifname)
 
     with open(path, 'r') as template:
         template = template.read()
@@ -139,6 +143,8 @@ def ct2g(cifname):
 
             if '_' in s[3]:
                 lbl = np.asarray(list(map(int, s[3].split('_')[1]))) - 5
+                if debug:
+                    print(lbl)
             elif s[3] == '.':
                 lbl = np.array([0,0,0])
             else:
@@ -171,13 +177,26 @@ def ct2g(cifname):
 
     if not edge_exist:
         raise ValueError('Error in ciftemplate2graph, no edges are given in the template:',cifname)
+    if plot:
+       nx.draw(G)
+       plt.savefig(path.replace('.cif','.png'))
+       plt.close()
 
+    if debug:
+        print("node mumber %d"%G.number_of_nodes())
+        print("edge mumber %d"%G.number_of_edges())
+        print("node list: ",G.nodes)
+        print("edge list: ",G.edges)
     S = [G.subgraph(c).copy() for c in nx.connected_components(G)]
+    if debug:
+        print('len connected components %d'%len(s))
+
     if len(S) > 1:
         catenation = True
     else:
         catenation = False
     
+
     for net in [(s, unit_cell, cifname, aL, bL, cL, alpha, beta, gamma, max_le) for s in S]:
 
         SG = nx.MultiGraph()
@@ -259,3 +278,13 @@ def edge_vecs(edge, G, unit_cell):
             v2 = G.node[e]['ccoords']
 
             return [v1 - ccoords, v2 - ccoords]
+
+if __name__=="__main__":
+    temps=['pfm.cif','hcb.cif','hna.cif']
+    temps=['hcb.cif','hna.cif']
+    for temp in temps:
+        print("----------"+temp+"------------")
+        ret=ct2g(temp,plot=True)
+        for i in ret:
+            print(i)
+

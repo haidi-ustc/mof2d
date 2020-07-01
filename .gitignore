@@ -2,3 +2,5 @@
 *.pyc
 template_errors
 cifs
+mytests
+*.png
