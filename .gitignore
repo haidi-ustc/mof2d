@@ -5,3 +5,5 @@ cifs
 mytests
 *.png
 *log
+*.swp
+log*

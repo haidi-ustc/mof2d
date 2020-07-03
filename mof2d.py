@@ -90,8 +90,15 @@ def run_template(template):
 
         cat_count += 1
         TG, start, unit_cell, TVT, TET, TNAME, a, b, c, ang_alpha, ang_beta, ang_gamma, max_le, catenation = net
+        print("start",start)
+        print("unit_cell",unit_cell)
+        print("TVT",TVT)
+        print("TET",TET)
+        print("TNAME",TNAME)
 
         node_cns = [(cncalc(node, 'nodes', ONE_ATOM_NODE_CN), node) for node in os.listdir('nodes')]
+
+        print(node_cns)
                 
         print('Number of vertices = ', len(TG.nodes()))
         print('Number of edges = ', len(TG.edges()))

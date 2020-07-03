@@ -9,12 +9,16 @@ from ciftemplate2graph import node_vecs
 def vertex_assign(TG, TVT, node_cns, unit_cell, cn1, USNA, SYM_TOL, ALL_NODE_COMBINATIONS):
 
     node_dict = dict((k,[]) for k in TVT)
+    print("node_dict")
+    print(node_dict)
 
     for node in node_cns:
         for k in TVT:
             if node[0] == k[0]:
                 node_dict[k].append(node[1])
 
+    print("node_dict")
+    print(node_dict)
     if USNA:
 
         va = []

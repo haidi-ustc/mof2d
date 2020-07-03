@@ -281,6 +281,7 @@ def edge_vecs(edge, G, unit_cell):
 if __name__=="__main__":
     temps=['pfm.cif','hcb.cif','hna.cif']
     temps=['hcb.cif','hna.cif']
+    temps=['hnb.cif']
     for temp in temps:
         print("----------"+temp+"------------")
         ret=ct2g(temp,plot=True)
