@@ -1,6 +1,7 @@
 import networkx as nx
 import numpy as np
 import re
+from pprint import pprint
 
 def cycle_cocyle(TG):
 
@@ -57,6 +58,10 @@ def cycle_cocyle(TG):
 
         node_out_edges_append(noe)
 
+    print('cycle_basis %d'%len(cycle_basis))
+    pprint(cycle_basis)
+    print('node_out_edges %d'%len(node_out_edges))
+    pprint(node_out_edges)
     return cycle_basis, node_out_edges
 
 def Bstar_alpha(CB, CO, TG, num_edges):

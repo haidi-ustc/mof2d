@@ -24,6 +24,7 @@ import time
 import glob
 import multiprocessing
 from random import choice
+from pprint import pprint
 
 ####### Global options #######
 DEBUG=False
@@ -165,6 +166,7 @@ def run_template(template):
             print()
     
         num_vertices = len(TG.nodes())
+        print("number_verties %d"%num_vertices) 
     
         if COMBINATORIAL_EDGE_ASSIGNMENT:
             eas = list(itertools.product([e for e in os.listdir('edges')], repeat = len(TET)))
@@ -179,6 +181,10 @@ def run_template(template):
                     i = 0
             eas = [eas]
     
+        print("-"*20)
+        print("eas")
+        print(eas)
+        print("-"*20)
         g = 0
 
         for va in vas:
@@ -228,6 +234,8 @@ def run_template(template):
                 ea_dict = assign_node_vecs2edges(TG, unit_cell, SYMMETRY_TOL)
                     
                 all_SBU_coords = SBU_coords(TG, ea_dict, CONNECTION_SITE_BOND_LENGTH)
+                print("all_SBU_coords")
+                pprint(all_SBU_coords)
                 sc_a, sc_b, sc_c, sc_alpha, sc_beta, sc_gamma, sc_covar, Bstar_inv, max_length, callbackresults, ncra, ncca, scaling_data = scale(all_SBU_coords,a,b,c,ang_alpha,ang_beta,ang_gamma,max_le,num_vertices,Bstar,alpha,num_edges,FIX_UC,SCALING_ITERATIONS,PRE_SCALE,SCALING_CONVERGENCE_TOLERANCE,SCALING_STEP_SIZE)
         
                 print('*******************************************')

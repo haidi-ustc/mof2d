@@ -2,6 +2,7 @@ from __future__ import print_function
 import os
 import itertools
 import numpy as np
+from pprint import pprint
 from bbcif_properties import X_vecs
 from place_bbs import superimpose
 from ciftemplate2graph import node_vecs
@@ -132,7 +133,9 @@ def vertex_assign(TG, TVT, node_cns, unit_cell, cn1, USNA, SYM_TOL, ALL_NODE_COM
 
             va_append(va_temp)
             used_append(cifs)
-                    
+        print('vertex append')
+        pprint('length vetex combination %d'%len(va))
+        pprint(va)            
     return va
 
 def assign_node_vecs2edges(TG, unit_cell, SYM_TOL):
@@ -182,6 +185,9 @@ def assign_node_vecs2edges(TG, unit_cell, SYM_TOL):
         elad = dict((k[2], (k[1],k[3],k[4])) for k in asd)
 
         edge_assign_dict[name] = elad
+    print('-'*20)
+    print('assigned edges %d'%  len(edge_assign_dict))
+    pprint(edge_assign_dict)
                     
     return edge_assign_dict
     
