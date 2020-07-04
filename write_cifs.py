@@ -373,6 +373,7 @@ def fix_bond_sym(bonds_all,placed_all,sc_unit_cell):
 def write_cif(placed_all, fixed_bonds, scaled_params, sc_unit_cell, cifname, charges):
 
     sc_a,sc_b,sc_c,sc_alpha,sc_beta,sc_gamma = scaled_params
+    zs=0.5
 
     #opath = os.path.join('cifs', cifname)
     opath=cifname
@@ -421,10 +422,10 @@ def write_cif(placed_all, fixed_bonds, scaled_params, sc_unit_cell, cifname, cha
             vec = list(map(float, l[1:4]))
             cvec = np.dot(np.linalg.inv(sc_unit_cell), vec)
             if charges:
-                out.write('{:7} {:>4} {:>15} {:>15} {:>15} {:>15}'.format(l[0], re.sub('[0-9]','',l[0]), "%.10f" % np.round(cvec[0],10), "%.10f" % np.round(cvec[1],10), "%.10f" % np.round(cvec[2],10), l[4]))
+                out.write('{:7} {:>4} {:>15} {:>15} {:>15} {:>15}'.format(l[0], re.sub('[0-9]','',l[0]), "%.10f" % (np.round(cvec[0],10)+zs), "%.10f" % (np.round(cvec[1],10)+zs), "%.10f" % (np.round(cvec[2],10)+zs), l[4]))
                 out.write('\n')
             else:
-                out.write('{:7} {:>4} {:>15} {:>15} {:>15}'.format(l[0], re.sub('[0-9]','',l[0]), "%.10f" % np.round(cvec[0],10), "%.10f" % np.round(cvec[1],10), "%.10f" % np.round(cvec[2],10)))
+                out.write('{:7} {:>4} {:>15} {:>15} {:>15}'.format(l[0], re.sub('[0-9]','',l[0]), "%.10f" % (np.round(cvec[0],10)+zs), "%.10f" % (np.round(cvec[1],10)+zs), "%.10f" % (np.round(cvec[2],10)+zs)))
                 out.write('\n')
 
         out.write('loop_' + '\n')
@@ -513,7 +514,7 @@ def cif_read(filename, charges=False):
     return elems, names, ccoords, fcoords, charge_list, bonds, (a,b,c,alpha,beta,gamma), unit_cell
 
 def merge_catenated_cifs(comb, charges):
-    
+    zs=0.5 
     all_read = [cif_read(cif) for cif in comb]
     natoms = [len(c[0]) for c in all_read]
     a,b,c,alpha,beta,gamma = all_read[0][6]
