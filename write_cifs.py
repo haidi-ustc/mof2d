@@ -6,6 +6,7 @@ from ciftemplate2graph import isvert
 import datetime
 import networkx as nx
 from bbcif_properties import iscoord, isbond
+from pymatgen import Structure,Lattice
 
 def nn(string):
     return re.sub('[^a-zA-Z]','', string)
@@ -373,8 +374,25 @@ def write_cif(placed_all, fixed_bonds, scaled_params, sc_unit_cell, cifname, cha
 
     sc_a,sc_b,sc_c,sc_alpha,sc_beta,sc_gamma = scaled_params
 
-    opath = os.path.join('cifs', cifname)
-    
+    #opath = os.path.join('cifs', cifname)
+    opath=cifname
+
+    coords=[]
+    sps=[]
+    for l in placed_all:
+        vec = list(map(float, l[1:4]))
+        cvec = np.dot(np.linalg.inv(sc_unit_cell), vec)
+        coord=[np.round(cvec[0],10),np.round(cvec[1],10), np.round(cvec[2],10)]
+        coords.append(coord)
+        sps.append(re.sub('[0-9]','',l[0]))
+    lat=Lattice.from_parameters(sc_a,sc_b,sc_c,sc_alpha,sc_beta,sc_gamma)
+    st=Structure(lat,sps,coords)
+    st.sort()
+    min_d=st.distance_matrix+np.eye(len(st))*1000
+    if min_d.min() <1.0:
+        print("! %s",opath)
+        return
+     
     with open(opath, 'w') as out:
         out.write('data_' + cifname[0:-4] + '\n')
         out.write('_audit_creation_date              ' + datetime.datetime.today().strftime('%Y-%m-%d') + '\n')
@@ -399,7 +417,6 @@ def write_cif(placed_all, fixed_bonds, scaled_params, sc_unit_cell, cifname, cha
         out.write('_atom_site_fract_z' + '\n')
         if charges:
             out.write('_atom_site_charge' + '\n')
-
         for l in placed_all:
             vec = list(map(float, l[1:4]))
             cvec = np.dot(np.linalg.inv(sc_unit_cell), vec)

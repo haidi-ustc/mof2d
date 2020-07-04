@@ -83,6 +83,11 @@ def run_template(template):
     print('template :',template)                                          
     print('=========================================================================================================')
     print()
+    outdir=os.path.join('cifs',template[0:-4])
+    if os.path.exists(outdir):
+        pass
+    else:
+        os.mkdir(outdir)
     
     cat_count = 0
     print(DEBUG)
@@ -345,10 +350,11 @@ def run_template(template):
                 else:
                     enames = str(len(ea)) + '_edges'
                 
+
                 if catenation:
-                    cifname = template[0:-4] + '_' +  vnames + '_' + enames + bond_check_code + '_' + 'CAT' + str(cat_count) + '.cif'
+                    cifname = outdir+'/'+template[0:-4] + '_' +  vnames + '_' + enames + bond_check_code + '_' + 'CAT' + str(cat_count) + '.cif'
                 else:
-                    cifname = template[0:-4] + '_' +  vnames + '_' + enames + bond_check_code + '.cif'
+                    cifname = outdir+'/'+template[0:-4] + '_' +  vnames + '_' + enames + bond_check_code + '.cif'
         
                 if WRITE_CIF:
                     print('writing cif...')
